@@ -1,0 +1,16 @@
+﻿# Display UI objects (true, false)
+ShowPlatformGuide = true
+ShowNowInfo = true
+ShowStaName = true
+ShowSchedule = true
+ShowStopBar = true
+
+# Enable flashing of next station display (true, false)
+Flashing = true
+
+# Stop bar size (int)
+BarWidth = 20
+BarScale = 75
+
+# UI visibility (float)
+Opacity = 0.8

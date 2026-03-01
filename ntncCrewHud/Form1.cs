@@ -35,9 +35,17 @@ namespace ntncCrewHud
 
         int TimerLongTicks = 0;
 
+        // Settings that do not have their own variable
+        bool ShowPlatformGuide = true;
+        bool ShowNowInfo = true;
+        bool ShowStaName = true;
+        bool ShowSchedule = true;
+        bool ShowStopBar = true;
+        bool FlashingEnabled = true;
+
         Bitmap BmBar;
         int BarWidth = 20;
-        int PixelsPerMeter = 75;
+        int BarScale = 75;
         int CenterLineThickness = 4;
         int MarkerThickness = 3;
         float MaxDistance = 20;
@@ -81,7 +89,60 @@ namespace ntncCrewHud
             SbOrange = new SolidBrush(Orange);
             SbWhite = new SolidBrush(Color.White);
 
+            InitSettings();
+            ApplySettings();
+
             TrainCrewInput.Init();
+        }
+
+        private void ApplySettings()
+        {
+            ShowPlatformGuide = ReadBool("ShowPlatformGuide");
+            if (!ShowPlatformGuide)
+            {
+                labelTrack.Visible = false;
+                btnPlatform.Visible = false;
+                pictureBoxPlatform.Visible = false;
+
+                int offsetY = btnTimeNow.Location.Y - btnPlatform.Location.Y;
+                btnTimeNow.Location = new Point(btnTimeNow.Location.X, btnTimeNow.Location.Y - offsetY);
+                btnDistance.Location = new Point(btnDistance.Location.X, btnDistance.Location.Y - offsetY);
+            }
+
+            ShowNowInfo = ReadBool("ShowNowInfo");
+            if (!ShowNowInfo)
+            {
+                btnTimeNow.Visible = false;
+                btnDistance.Visible = false;
+            }
+
+            ShowStaName = ReadBool("ShowStaName");
+            if (!ShowStaName)
+            {
+                btnStationName.Visible = false;
+
+                int offsetY = btnArv.Location.Y - btnStationName.Location.Y;
+                btnArv.Location = new Point(btnArv.Location.X, btnArv.Location.Y - offsetY);
+                btnDep.Location = new Point(btnDep.Location.X, btnDep.Location.Y - offsetY);
+                labelArv.Location = new Point(labelArv.Location.X, labelArv.Location.Y - offsetY);
+                labelDep.Location = new Point(labelDep.Location.X, labelDep.Location.Y - offsetY);
+            }
+
+            ShowSchedule = ReadBool("ShowSchedule");
+            if (!ShowSchedule)
+            {
+                btnArv.Visible = false;
+                btnDep.Visible = false;
+                labelArv.Visible = false;
+                labelDep.Visible = false;
+            }
+
+            ShowStopBar = ReadBool("ShowStopBar");
+            BarWidth = ReadInt("BarWidth");
+            BarScale = ReadInt("BarScale");
+
+            FlashingEnabled = ReadBool("Flashing");
+            this.Opacity = ReadFloat("Opacity");
         }
 
         // This is run roughly every frame when the overlay is active
@@ -93,6 +154,7 @@ namespace ntncCrewHud
             btnTimeNow.Refresh();
 
             btnDistance.Text = $"{Math.Max(0, trainState.nextUIDistance / 1000) :F1} km";
+            btnDistance.Refresh();
 
             // Appears when the station object starts blinking
             if (NearStation)
@@ -101,17 +163,17 @@ namespace ntncCrewHud
                 gb.Clear(this.TransparencyKey);
 
                 // Actual stopbar background
-                int stopbarTop = this.Height / 2 - 3 * PixelsPerMeter;
-                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop, BarWidth, PixelsPerMeter));
-                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop + 5 * PixelsPerMeter, BarWidth, PixelsPerMeter));
-                gb.FillRectangle(SbBlue2, new Rectangle(0, stopbarTop + PixelsPerMeter, BarWidth, 4 * PixelsPerMeter));
-                gb.FillRectangle(SbBlue1, new Rectangle(0, stopbarTop + 2 * PixelsPerMeter, BarWidth, 2 * PixelsPerMeter));
-                gb.FillRectangle(SbWhite, new Rectangle(0, stopbarTop + 3 * PixelsPerMeter - CenterLineThickness / 2, BarWidth, CenterLineThickness));
-
+                int stopbarTop = this.Height / 2 - 3 * BarScale;
+                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop, BarWidth, BarScale));
+                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop + 5 * BarScale, BarWidth, BarScale));
+                gb.FillRectangle(SbBlue2, new Rectangle(0, stopbarTop + BarScale, BarWidth, 4 * BarScale));
+                gb.FillRectangle(SbBlue1, new Rectangle(0, stopbarTop + 2 * BarScale, BarWidth, 2 * BarScale));
+                gb.FillRectangle(SbWhite, new Rectangle(0, stopbarTop + 3 * BarScale - CenterLineThickness / 2, BarWidth, CenterLineThickness));
+                
                 // Only draw the marker when very close
                 if (trainState.nextStaDistance < MaxDistance)
                 {
-                    int markerCenterY = (int)(this.Height / 2 - trainState.nextStaDistance * PixelsPerMeter);
+                    int markerCenterY = (int)(this.Height / 2 - trainState.nextStaDistance * BarScale);
 
                     Point[] poly = new Point[]
                     {
@@ -135,7 +197,7 @@ namespace ntncCrewHud
                 pictureBoxBar.Image = BmBar;
                 gb.Dispose();
 
-                pictureBoxBar.Visible = true;
+                pictureBoxBar.Visible = ShowStopBar;
             }
             else
             {
@@ -309,8 +371,16 @@ namespace ntncCrewHud
 
                                 if ((trainState.ATS_State != "無表示" || trainState.nextStaDistance < 300) && TimerLongTicks % 2 == 0)
                                 {
-                                    btnStationName.ForeColor = Color.White;
-                                    btnStationName.BackColor = Orange;
+                                    if (FlashingEnabled)
+                                    {
+                                        btnStationName.ForeColor = Color.White;
+                                        btnStationName.BackColor = Orange;
+                                    }
+                                    else
+                                    {
+                                        btnStationName.ForeColor = Orange;
+                                        btnStationName.BackColor = Color.White;
+                                    }
 
                                     NearStation = true;
                                 }
@@ -519,7 +589,7 @@ namespace ntncCrewHud
         private void SetSimpleElementColors(Color fg, Color bg)
         {
             Control[] affectedControls = new Control[] { labelDebug, btnDistance,
-                btnTimeNow, btnArv, btnDep, labelTimeNow, labelArv, labelDep };
+                btnTimeNow, btnArv, btnDep, labelArv, labelDep };
 
             foreach (Control c in affectedControls)
             {

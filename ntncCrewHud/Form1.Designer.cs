@@ -35,7 +35,6 @@ namespace ntncCrewHud
             this.timerLong = new System.Windows.Forms.Timer(this.components);
             this.btnTimeNow = new System.Windows.Forms.Button();
             this.btnDep = new System.Windows.Forms.Button();
-            this.labelTimeNow = new System.Windows.Forms.Label();
             this.labelDep = new System.Windows.Forms.Label();
             this.labelArv = new System.Windows.Forms.Label();
             this.btnArv = new System.Windows.Forms.Button();
@@ -58,12 +57,13 @@ namespace ntncCrewHud
             this.btnStationName.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(80)))), ((int)(((byte)(128)))));
             this.btnStationName.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(80)))), ((int)(((byte)(128)))));
             this.btnStationName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStationName.Font = new System.Drawing.Font("Yu Gothic Medium", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStationName.Font = new System.Drawing.Font("Yu Gothic", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStationName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(224)))), ((int)(((byte)(248)))));
             this.btnStationName.Location = new System.Drawing.Point(570, 30);
             this.btnStationName.Name = "btnStationName";
             this.btnStationName.Size = new System.Drawing.Size(200, 50);
             this.btnStationName.TabIndex = 0;
+            this.btnStationName.Text = "館浜";
             this.btnStationName.UseMnemonic = false;
             this.btnStationName.UseVisualStyleBackColor = false;
             // 
@@ -86,10 +86,10 @@ namespace ntncCrewHud
             this.btnTimeNow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(80)))), ((int)(((byte)(128)))));
             this.btnTimeNow.Location = new System.Drawing.Point(30, 86);
             this.btnTimeNow.Name = "btnTimeNow";
-            this.btnTimeNow.Size = new System.Drawing.Size(110, 25);
+            this.btnTimeNow.Size = new System.Drawing.Size(82, 25);
             this.btnTimeNow.TabIndex = 1;
-            this.btnTimeNow.Text = "--:--:--";
-            this.btnTimeNow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnTimeNow.Text = "00:00:00";
+            this.btnTimeNow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTimeNow.UseVisualStyleBackColor = false;
             // 
             // btnDep
@@ -107,18 +107,6 @@ namespace ntncCrewHud
             this.btnDep.Text = "--:--:--";
             this.btnDep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDep.UseVisualStyleBackColor = false;
-            // 
-            // labelTimeNow
-            // 
-            this.labelTimeNow.AutoSize = true;
-            this.labelTimeNow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(224)))), ((int)(((byte)(248)))));
-            this.labelTimeNow.Font = new System.Drawing.Font("Yu Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTimeNow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(80)))), ((int)(((byte)(128)))));
-            this.labelTimeNow.Location = new System.Drawing.Point(33, 90);
-            this.labelTimeNow.Name = "labelTimeNow";
-            this.labelTimeNow.Size = new System.Drawing.Size(24, 19);
-            this.labelTimeNow.TabIndex = 3;
-            this.labelTimeNow.Text = "時";
             // 
             // labelDep
             // 
@@ -232,10 +220,10 @@ namespace ntncCrewHud
             this.btnDistance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(80)))), ((int)(((byte)(128)))));
             this.btnDistance.Location = new System.Drawing.Point(30, 115);
             this.btnDistance.Name = "btnDistance";
-            this.btnDistance.Size = new System.Drawing.Size(70, 25);
+            this.btnDistance.Size = new System.Drawing.Size(82, 25);
             this.btnDistance.TabIndex = 13;
             this.btnDistance.Text = "0.0 km";
-            this.btnDistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDistance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDistance.UseVisualStyleBackColor = false;
             // 
             // Form1
@@ -253,7 +241,6 @@ namespace ntncCrewHud
             this.Controls.Add(this.labelArv);
             this.Controls.Add(this.btnArv);
             this.Controls.Add(this.labelDep);
-            this.Controls.Add(this.labelTimeNow);
             this.Controls.Add(this.btnDep);
             this.Controls.Add(this.btnTimeNow);
             this.Controls.Add(this.btnStationName);
@@ -280,7 +267,6 @@ namespace ntncCrewHud
         private System.Windows.Forms.Timer timerLong;
         private System.Windows.Forms.Button btnTimeNow;
         private System.Windows.Forms.Button btnDep;
-        private System.Windows.Forms.Label labelTimeNow;
         private System.Windows.Forms.Label labelDep;
         private System.Windows.Forms.Label labelArv;
         private System.Windows.Forms.Button btnArv;
