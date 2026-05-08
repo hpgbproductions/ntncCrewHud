@@ -148,7 +148,15 @@ namespace ntncCrewHud
         // This is run roughly every frame when the overlay is active
         private void timerFrame_Tick(object sender, EventArgs e)
         {
-            TrainState trainState = TrainCrewInput.GetTrainState();
+            TrainState trainState;
+            try
+            {
+                trainState = TrainCrewInput.GetTrainState();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
 
             btnTimeNow.Text = trainState.NowTime.ToString(@"hh\:mm\:ss");
             btnTimeNow.Refresh();
@@ -212,7 +220,16 @@ namespace ntncCrewHud
             TimerLongTicks++;
 
             GameState gameState = TrainCrewInput.gameState;
-            TrainState trainState = TrainCrewInput.GetTrainState();
+
+            TrainState trainState;
+            try
+            {
+                trainState = TrainCrewInput.GetTrainState();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
 
             if (TcWindowHandle == IntPtr.Zero)
             {
