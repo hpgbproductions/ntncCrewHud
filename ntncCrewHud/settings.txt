@@ -5,6 +5,12 @@ ShowStaName = true
 ShowSchedule = true
 ShowStopBar = true
 
+# Stop bar colored bands (true, false)
+DrawShape3 = true
+DrawShape2 = true
+DrawShape1 = true
+DrawShape0 = true
+
 # Enable flashing of next station display (true, false)
 Flashing = true
 

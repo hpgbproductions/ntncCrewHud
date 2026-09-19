@@ -49,6 +49,10 @@ namespace ntncCrewHud
         int CenterLineThickness = 4;
         int MarkerThickness = 3;
         float MaxDistance = 20;
+        bool DrawShape0 = true;
+        bool DrawShape1 = true;
+        bool DrawShape2 = true;
+        bool DrawShape3 = true;
 
         Bitmap BmPlatform;
         int CellWidth = 20;
@@ -138,6 +142,10 @@ namespace ntncCrewHud
             }
 
             ShowStopBar = ReadBool("ShowStopBar");
+            DrawShape0 = ReadBool("DrawShape0");
+            DrawShape1 = ReadBool("DrawShape1");
+            DrawShape2 = ReadBool("DrawShape2");
+            DrawShape3 = ReadBool("DrawShape3");
             BarWidth = ReadInt("BarWidth");
             BarScale = ReadInt("BarScale");
 
@@ -172,11 +180,10 @@ namespace ntncCrewHud
 
                 // Actual stopbar background
                 int stopbarTop = this.Height / 2 - 3 * BarScale;
-                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop, BarWidth, BarScale));
-                gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop + 5 * BarScale, BarWidth, BarScale));
-                gb.FillRectangle(SbBlue2, new Rectangle(0, stopbarTop + BarScale, BarWidth, 4 * BarScale));
-                gb.FillRectangle(SbBlue1, new Rectangle(0, stopbarTop + 2 * BarScale, BarWidth, 2 * BarScale));
-                gb.FillRectangle(SbWhite, new Rectangle(0, stopbarTop + 3 * BarScale - CenterLineThickness / 2, BarWidth, CenterLineThickness));
+                if (DrawShape3) gb.FillRectangle(SbBlue3, new Rectangle(0, stopbarTop, BarWidth, 6 * BarScale));
+                if (DrawShape2) gb.FillRectangle(SbBlue2, new Rectangle(0, stopbarTop + BarScale, BarWidth, 4 * BarScale));
+                if (DrawShape1) gb.FillRectangle(SbBlue1, new Rectangle(0, stopbarTop + 2 * BarScale, BarWidth, 2 * BarScale));
+                if (DrawShape0) gb.FillRectangle(SbWhite, new Rectangle(0, stopbarTop + 3 * BarScale - CenterLineThickness / 2, BarWidth, CenterLineThickness));
                 
                 // Only draw the marker when very close
                 if (trainState.nextStaDistance < MaxDistance)
